@@ -46,7 +46,7 @@ function getFastaFile(evt){
       if (tmp) {
         fastaEntries = fastaEntries.concat(tmp)
       };
-      generateGrid()
+      // generateGrid()
     };
     reader.readAsText(f)
   };
