@@ -72,7 +72,7 @@ function dropFastaFile(evt){
           if (tmp) {
             fastaEntries = fastaEntries.concat(tmp)
           };
-          generateGrid()
+          // generateGrid()
         };
         reader.readAsText(f)
       }
@@ -82,7 +82,8 @@ function dropFastaFile(evt){
     for (var i = 0; i < evt.dataTransfer.files.length; i++) {
       console.log('... file[' + i + '].name = ' + ev.dataTransfer.files[i].name);
     }
-  }
+  };
+  // generateGrid()
 };
 
 function dragOverHandler(ev) {
