@@ -9,6 +9,13 @@ var $grid = $('#grid');
 var hot;
 var inFileName;
 var $fileInput = $('#file');
+var $numEntries = $('#num_files');
+
+(function loop() {
+  setTimeout(loop, 100);
+  $numEntries.text(fastaEntries.length)}
+)();
+
 
 // $('#file')[0].addEventListener('change', getFastaFile, false);
 $fileInput.bind('change', getFastaFile);
@@ -125,6 +132,7 @@ function generateGrid(){
     ],
     width: '100%',
     // height: 320,
+    manualColumnResize: true,
     rowHeaders: true,
     colHeaders: ['SourceFile','OriginalName', '', 'NewName', 'Include in<br>output<br>file', 'Info'],
     fixedColumnsLeft: 2

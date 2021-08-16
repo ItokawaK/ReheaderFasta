@@ -22,8 +22,9 @@
     <div id="drop_zone" ondrop="dropFastaFile(event);" ondragover="dragOverHandler(event);">
        <p>Drag one or more FASTA (*.fa, *.fas or *.fasta) files here ...</p>
     </div>
+    <span id="num_files"></span> sequence entries.</p>
     <div>
-      (optional) Modified headers in table below <input type="button" value="Show Table" id='CreateGrid' onclick="generateGrid()">
+       (optional) Modified headers in table below <input type="button" value="Show Table" id='CreateGrid' onclick="generateGrid()">
     </div>
     <div>
       2. Download multi-FASTA  <input type="button" value="Download Fasta" id='download' onclick="downloadFasta()">
