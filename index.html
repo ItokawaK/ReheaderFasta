@@ -18,17 +18,34 @@
     <div>
       1. Input Fasta File <input type="file" accept=".fa,.fasta,.fas,.msa" id="file" multiple />
     </div>
-    <!-- <div>
-      (optional) 2. Modified headers  <input type="button" value="Show Table" id='CreateGrid' onclick="generateGrid()">
-    </div> -->
+
     <div id="drop_zone" ondrop="dropFastaFile(event);" ondragover="dragOverHandler(event);">
        <p>Drag one or more FASTA (*.fa, *.fas or *.fasta) files here ...</p>
     </div>
     <div>
-      3. Download multi-FASTA  <input type="button" value="Download Fasta" id='download' onclick="downloadFasta()">
+      (optional) Modified headers in table below <input type="button" value="Show Table" id='CreateGrid' onclick="generateGrid()">
+    </div>
+    <div>
+      2. Download multi-FASTA  <input type="button" value="Download Fasta" id='download' onclick="downloadFasta()">
     </div>
 
     <div id="grid">
+
+      <div style="margin-left:20%;margin-right:20%;text-align:center">
+        <p><a href="https://github.com/ItokawaK/ReheaderFasta">GitHub repository</a></p>
+        <p style='color:gray;font-size:10pt;'>
+            THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+          IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+          FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+          AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+          LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+          OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+          SOFTWARE.<br><br>
+          作者または著作権者は、本ソフトウェアに起因または関連し、
+          あるいは本ソフトウェアの使用またはその他の扱いによって生じる一切の請求、
+          損害、その他の義務について何らの責任も負わないものとします。
+       </p>
+      </div>
 
 
 
