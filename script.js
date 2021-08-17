@@ -44,7 +44,8 @@ function getFastaFile(evt){
 
   // fastaEntries = [];
 
-  for (var i = 0, f; f = files[i]; i++) {
+  for (var i = 0; i < files.length; i++) {
+    let f = files[i];
     let reader = new FileReader();
     reader.fileName = f.name;
     inFileName = f.name;
@@ -207,7 +208,8 @@ function parseFASTA(fastaStr, fileName=''){
     return
   }
 
-  for (let i=0,line; line=inLines[i]; i++){
+  for (let i=0; i < inLines.length; i++){
+    let line = inLines[i];
     if (line.startsWith('>')){
       if (e){
         outFastaEntries.push(e)
