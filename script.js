@@ -106,7 +106,7 @@ function generateGrid(){
     // data.push([item.sourceFile, item.id, ' => ', item.id])
     data.push({
       SourceFile: item.sourceFile,
-      OriginalName: item.id,
+      OriginalName: item.original_id,
       Arrow: ' => ',
       NewName: item.id,
       Include: item.include
@@ -168,6 +168,7 @@ function generateGrid(){
 
     this.validating = true;
     let newnames = this.getDataAtProp('NewName');
+    let originalnames = this.getDataAtProp('OriginalName');
     let isincludes = this.getDataAtProp('Include');
     let already_used = {};
     // console.log(isincludes);
@@ -184,6 +185,8 @@ function generateGrid(){
         this.setDataAtRowProp(row,'Include', false);
         console.log('bb');
         fastaEntries[row].include = false;
+      }else if (originalnames[row] != newnames[row]){
+         this.setDataAtRowProp(row,'Info', 'Edited')
       }else if(isincludes[row]){
         already_used[newnames[row]] = true;
       }
