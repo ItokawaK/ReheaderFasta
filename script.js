@@ -10,10 +10,18 @@ var hot;
 var inFileName;
 var $fileInput = $('#file');
 var $numEntries = $('#num_files');
+var $totalBases = $('#total_bases');
+var $loadingStatus = $('#loading_status');
 
 (function loop() {
-  setTimeout(loop, 100);
-  $numEntries.text(fastaEntries.length)}
+  setTimeout(loop, 1000);
+  $numEntries.text(fastaEntries.length);
+  let num_bases = 0;
+  for(let i=0; i < fastaEntries.length;i++){
+    num_bases += fastaEntries[i].seq.length
+  };
+  $totalBases.text(num_bases)
+}
 )();
 
 
@@ -32,7 +40,6 @@ function validateHeader(in_str){
   if (forbidden.test(in_str)){
     return false
   }
-
   return true
 }
 
@@ -67,7 +74,10 @@ function dropFastaFile(evt){
 
   if (evt.dataTransfer.items) {
     // Use DataTransferItemList interface to access the file(s)
-    for (var i = 0; i < evt.dataTransfer.items.length; i++) {
+    let n_finished = 0;
+    let n_files = evt.dataTransfer.items.length;
+    $loadingStatus.text('...now loading');
+    for (var i = 0; i < n_files; i++) {
       // If dropped items aren't files, reject them
       if (evt.dataTransfer.items[i].kind === 'file') {
         var f = evt.dataTransfer.items[i].getAsFile();
@@ -80,7 +90,12 @@ function dropFastaFile(evt){
           if (tmp) {
             fastaEntries = fastaEntries.concat(tmp)
           };
-          // generateGrid()
+          n_finished++;
+
+          if (n_finished >= n_files){
+            // generateGrid()
+            $loadingStatus.text('Files are loaded.')
+          }
         };
         reader.readAsText(f)
       }
@@ -101,6 +116,9 @@ function dragOverHandler(ev) {
 
 function generateGrid(){
   var data = [];
+  // if (!hot){
+  //   return
+  // }
 
   fastaEntries.forEach((item, i) => {
     // data.push([item.sourceFile, item.id, ' => ', item.id])
@@ -132,7 +150,7 @@ function generateGrid(){
       { data: 'Info', readOnly: true, type: 'text' }
     ],
     width: '100%',
-    // height: 320,
+    height: 500,
     manualColumnResize: true,
     rowHeaders: true,
     colHeaders: ['SourceFile','OriginalName', '', 'NewName', 'Include in<br>output<br>file', 'Info'],
@@ -183,7 +201,6 @@ function generateGrid(){
       }else if (already_used[newnames[row]]){
         this.setDataAtRowProp(row,'Info', 'Duplicated!');
         this.setDataAtRowProp(row,'Include', false);
-        console.log('bb');
         fastaEntries[row].include = false;
       }else if (originalnames[row] != newnames[row]){
          this.setDataAtRowProp(row,'Info', 'Edited')

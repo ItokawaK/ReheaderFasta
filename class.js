@@ -1,6 +1,7 @@
 class fastaEntry {
   constructor(id, seq='', sourceFile='') {
     this.id = id;
+    this.original_id = id;
     this.seq = seq;
     this.sourceFile = sourceFile;
     this.include = true

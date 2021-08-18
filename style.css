@@ -4,3 +4,8 @@
   width:  400px;
   height: 100px;
 }
+
+#loading_status{
+  font-size: 26;
+  color: red;
+}
