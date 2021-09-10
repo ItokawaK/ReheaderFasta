@@ -1,11 +1,12 @@
 
 #drop_zone {
   border: 5px dotted blue;
-  width:  400px;
-  height: 100px;
+  width:  60%;
+  height: 150px;
 }
 
 #loading_status{
   font-size: 26;
   color: red;
+  font-weight: bold;
 }

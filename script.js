@@ -13,6 +13,9 @@ var $numEntries = $('#num_files');
 var $totalBases = $('#total_bases');
 var $loadingStatus = $('#loading_status');
 
+var FILE_LOADING_MSG = '... Now LOADING ...'
+var FILE_LOADED_MSG = '';
+
 (function loop() {
   setTimeout(loop, 1000);
   $numEntries.text(fastaEntries.length);
@@ -26,7 +29,7 @@ var $loadingStatus = $('#loading_status');
 
 
 // $('#file')[0].addEventListener('change', getFastaFile, false);
-$fileInput.bind('change', getFastaFile);
+// $fileInput.bind('change', getFastaFile);
 
 function validateHeader(in_str){
   var isAscii = /^[\x00-\x7F]+$/;
@@ -44,28 +47,28 @@ function validateHeader(in_str){
 }
 
 
-function getFastaFile(evt){
-  let files = evt.target.files;
-  rowFastaStr = [];
-  oriFasta = {fastaLines:[], headers: []};
-
-  // fastaEntries = [];
-
-  for (var i = 0; i < files.length; i++) {
-    let f = files[i];
-    let reader = new FileReader();
-    reader.fileName = f.name;
-    inFileName = f.name;
-    reader.onload = function() {
-      let tmp = parseFASTA(reader.result, reader.fileName);
-      if (tmp) {
-        fastaEntries = fastaEntries.concat(tmp)
-      };
-      // generateGrid()
-    };
-    reader.readAsText(f)
-  };
-};
+// function getFastaFile(evt){
+//   let files = evt.target.files;
+//   rowFastaStr = [];
+//   oriFasta = {fastaLines:[], headers: []};
+//
+//   // fastaEntries = [];
+//
+//   for (var i = 0; i < files.length; i++) {
+//     let f = files[i];
+//     let reader = new FileReader();
+//     reader.fileName = f.name;
+//     inFileName = f.name;
+//     reader.onload = function() {
+//       let tmp = parseFASTA(reader.result, reader.fileName);
+//       if (tmp) {
+//         fastaEntries = fastaEntries.concat(tmp)
+//       };
+//       // generateGrid()
+//     };
+//     reader.readAsText(f)
+//   };
+// };
 
 function dropFastaFile(evt){
   evt.preventDefault();
@@ -76,12 +79,20 @@ function dropFastaFile(evt){
     // Use DataTransferItemList interface to access the file(s)
     let n_finished = 0;
     let n_files = evt.dataTransfer.items.length;
-    $loadingStatus.text('...now loading');
+    $loadingStatus.text(FILE_LOADING_MSG);
     for (var i = 0; i < n_files; i++) {
       // If dropped items aren't files, reject them
       if (evt.dataTransfer.items[i].kind === 'file') {
         var f = evt.dataTransfer.items[i].getAsFile();
-        if (!isfasta.test(f.name)){console.log(f.name + ' =>error');continue}
+        if (!isfasta.test(f.name)){
+          console.log(f.name + ' =>error');
+          n_finished++;
+          if (n_finished >= n_files){
+            // generateGrid()
+            $loadingStatus.text(FILE_LOADED_MSG)
+          }
+          continue
+        }
         let reader = new FileReader();
         reader.fileName = f.name;
         inFileName = f.name;
@@ -94,7 +105,7 @@ function dropFastaFile(evt){
 
           if (n_finished >= n_files){
             // generateGrid()
-            $loadingStatus.text('Files are loaded.')
+            $loadingStatus.text(FILE_LOADED_MSG)
           }
         };
         reader.readAsText(f)
@@ -127,6 +138,8 @@ function generateGrid(){
       OriginalName: item.original_id,
       Arrow: ' => ',
       NewName: item.id,
+      TotalBases: item.len,
+      UnknownBases: item.num_unknown,
       Include: item.include
     })
   });
@@ -146,6 +159,8 @@ function generateGrid(){
       { data: 'OriginalName', readOnly: true, type: 'text' },
       { data: 'Arrow', readOnly: true, type: 'text' },
       { data: 'NewName', type: 'text'},
+      { data: 'UnknownBases', readOnly: true,type: 'text' },
+      { data: 'TotalBases', readOnly: true,type: 'text' },
       { data: 'Include', type: 'checkbox' },
       { data: 'Info', readOnly: true, type: 'text' }
     ],
@@ -153,7 +168,7 @@ function generateGrid(){
     height: 500,
     manualColumnResize: true,
     rowHeaders: true,
-    colHeaders: ['SourceFile','OriginalName', '', 'NewName', 'Include in<br>output<br>file', 'Info'],
+    colHeaders: ['SourceFile','OriginalName', '', 'NewName', 'Unknown<br> Bases', 'Total<br> Bases','Include in<br>output<br>file', 'Info'],
     fixedColumnsLeft: 2
   });
 
@@ -214,8 +229,6 @@ function generateGrid(){
 
   hot.validate()
 };
-
-
 
 function parseFASTA(fastaStr, fileName=''){
 
