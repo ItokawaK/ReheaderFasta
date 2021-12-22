@@ -1,12 +1,21 @@
 
 #drop_zone {
   border: 5px dotted blue;
-  width:  60%;
+  width:  450px;
   height: 150px;
+  background: #D8EEFF
 }
 
 #loading_status{
   font-size: 26;
   color: red;
+  font-weight: bold;
+}
+
+#num_files{
+  font-weight: bold;
+}
+
+#total_bases{
   font-weight: bold;
 }
