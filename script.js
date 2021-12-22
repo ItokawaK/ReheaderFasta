@@ -12,8 +12,10 @@ var $fileInput = $('#file');
 var $numEntries = $('#num_files');
 var $totalBases = $('#total_bases');
 var $loadingStatus = $('#loading_status');
+var $downloadBotton = $('#download');
+var $createGridButton = $('#CreateGrid');
 
-var FILE_LOADING_MSG = '... Now LOADING ...'
+var FILE_LOADING_MSG = '... Now LOADING ...';
 var FILE_LOADED_MSG = '';
 
 (function loop() {
@@ -24,6 +26,10 @@ var FILE_LOADED_MSG = '';
     num_bases += fastaEntries[i].seq.length
   };
   $totalBases.text(num_bases)
+  if (num_bases == 0){
+    $downloadBotton.prop('disabled', true);
+    $createGridButton.prop('disabled', true);
+  }
 }
 )();
 
@@ -47,33 +53,13 @@ function validateHeader(in_str){
 }
 
 
-// function getFastaFile(evt){
-//   let files = evt.target.files;
-//   rowFastaStr = [];
-//   oriFasta = {fastaLines:[], headers: []};
-//
-//   // fastaEntries = [];
-//
-//   for (var i = 0; i < files.length; i++) {
-//     let f = files[i];
-//     let reader = new FileReader();
-//     reader.fileName = f.name;
-//     inFileName = f.name;
-//     reader.onload = function() {
-//       let tmp = parseFASTA(reader.result, reader.fileName);
-//       if (tmp) {
-//         fastaEntries = fastaEntries.concat(tmp)
-//       };
-//       // generateGrid()
-//     };
-//     reader.readAsText(f)
-//   };
-// };
-
 function dropFastaFile(evt){
   evt.preventDefault();
 
-  var isfasta = /.fasta$|.fa$|.fas$|.msa$/
+  var isfasta = /.fasta$|.fa$|.fas$|.msa$/;
+
+  $downloadBotton.prop('disabled', true);
+  $createGridButton.prop('disabled', true);
 
   if (evt.dataTransfer.items) {
     // Use DataTransferItemList interface to access the file(s)
@@ -117,6 +103,8 @@ function dropFastaFile(evt){
       console.log('... file[' + i + '].name = ' + ev.dataTransfer.files[i].name);
     }
   };
+  $downloadBotton.prop('disabled', false);
+  $createGridButton.prop('disabled', false);
   // generateGrid()
 };
 
@@ -168,7 +156,10 @@ function generateGrid(){
     height: 500,
     manualColumnResize: true,
     rowHeaders: true,
-    colHeaders: ['SourceFile','OriginalName', '', 'NewName', 'Unknown<br> Bases', 'Total<br> Bases','Include in<br>output<br>file', 'Info'],
+    colHeaders: ['SourceFile','OriginalName', '', 'NewName',
+                 'Unknown<br> Bases', 'Total<br> Bases',
+                 'Include in<br>output<br>file', 'Info'],
+
     fixedColumnsLeft: 2
   });
 

@@ -21,17 +21,19 @@
     </div>
 
     <div id="drop_zone" ondrop="dropFastaFile(event);" ondragover="dragOverHandler(event);">
-       <p>Drag one or more FASTA (*.fa, *.fas or *.fasta) files here ...</p>
+       <p>Drag & Drop one or more FASTA (*.fa, *.fas or *.fasta) files here ...</p>
     </div>
     <span id="loading_status"></span>
     <div>
-      There are <span id="num_files"></span> sequence entries. Total <span id="total_bases"></span> bases.</p>
+      Sequence entries: <span id="num_files"></span> sequences. <br>
+      Total bases: <span id="total_bases"></span> bp.</p>
     </div>
     <div>
-       (optional) Modified headers in table below <input type="button" value="Show Table" id='CreateGrid' onclick="generateGrid()">
+       (optional) 2. Modified headers in table below <input type="button" value="Show Table" id='CreateGrid' onclick="generateGrid()" disabled>
     </div>
+    <br>
     <div>
-      2. Download multi-FASTA  <input type="button" value="Download Fasta" id='download' onclick="downloadFasta()">
+      3. Download multi-FASTA  <input type="button" value="Download Fasta" id='download' onclick="downloadFasta()" disabled>
     </div>
 
     <div id="grid"> </div>
