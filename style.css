@@ -1,9 +1,21 @@
 
+.step_el{
+    margin-left: 100px;
+}
+.stepHeader{
+  background: #1abc9c;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
 #drop_zone {
+  border-radius: 25px;
   border: 5px dotted blue;
-  width:  450px;
+  width:  550px;
   height: 150px;
-  background: #D8EEFF
+  background: #D8EEFF;
+  color: gray;
 }
 
 #loading_status{
@@ -18,4 +30,8 @@
 
 #total_bases{
   font-weight: bold;
+}
+
+#dlFilename{
+  border-radius: 7px;
 }

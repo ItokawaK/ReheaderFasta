@@ -14,6 +14,7 @@ var $totalBases = $('#total_bases');
 var $loadingStatus = $('#loading_status');
 var $downloadBotton = $('#download');
 var $createGridButton = $('#CreateGrid');
+var $downloadFileName = $('#dlFilename');
 
 var FILE_LOADING_MSG = '... Now LOADING ...';
 var FILE_LOADED_MSG = '';
@@ -25,10 +26,14 @@ var FILE_LOADED_MSG = '';
   for(let i=0; i < fastaEntries.length;i++){
     num_bases += fastaEntries[i].seq.length
   };
-  $totalBases.text(num_bases)
+  $totalBases.text(num_bases);
   if (num_bases == 0){
     $downloadBotton.prop('disabled', true);
     $createGridButton.prop('disabled', true);
+  };
+
+  if ($downloadFileName.val() == '' && inFileName){
+    $downloadFileName.val('RENAMED_' + inFileName.replace(/\.[^/.]+$/, ""))
   }
 }
 )();
@@ -153,6 +158,7 @@ function generateGrid(){
       { data: 'Info', readOnly: true, type: 'text' }
     ],
     width: '100%',
+    colWidths: [150, 400, 50, 400, 50, 80, 80, 200],
     height: 500,
     manualColumnResize: true,
     rowHeaders: true,
@@ -275,7 +281,7 @@ function downloadFasta(){
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     document.body.appendChild(a);
-    a.download = 'RENAMED_' + inFileName;
+    a.download = $downloadFileName.val() + '.fasta';
     a.href = url;
     a.click();
     a.remove();
